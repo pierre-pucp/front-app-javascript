@@ -17,3 +17,18 @@ function validarForm() {
     console.log("Validation réussie pour : " + nombre);
     return false; 
 }
+
+$(document).ready(function() {
+    $("#cuerpoTabla").on("click", ".btn-eliminar", function () {
+        let idCliente = $(this).data("id");
+        console.log("Click para eliminar el cliente" + idCliente);
+        $(this).closest("tr").remove();
+    })
+
+    $("#cuerpoTabla").on("mouseenter", "tr", function () {
+        $(this).css("backgroundColor", "#f0f8ff");
+    })
+    $("#cuerpoTabla").on("mouseleave", "tr", function () {
+        $(this).css("backgroundColor", "");
+    })
+})
