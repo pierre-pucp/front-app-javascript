@@ -78,6 +78,65 @@ $(document).ready(function() {
         });
     });
 
+    $("#formCliente").on("submit", function(event) {
+        event.preventDefault(); // Empêche le rechargement de la page
+
+        // On appelle notre validation JavaScript pur de la Partie 1
+        if (!validarForm()) {
+            return;
+        }
+
+        let nuevoCliente = {
+            nombre: $("#inputNombre").val().trim(),
+            plan: $("#inputPlan").val()
+        };
+
+        $.ajax({[cite: 7]
+            url: API_URL,[cite: 7]
+            method: "POST",[cite: 7]
+            contentType: "application/json", // Indique qu'on envoie du JSON
+            headers: {
+                "Authorization": "Bearer TOKEN_12345" // En-tête de sécurité exigé[cite: 3, 7]
+            },
+            data: JSON.stringify(nuevoCliente) // Convertit l'objet JS en texte JSON[cite: 7]
+        })
+        .done(function(respuesta) {[cite: 7]
+            // Le serveur répond { "estado": "creado", "id": 15 }
+            mostrarAlerta("Client créé avec succès ! Nouvel ID : " + respuesta.id, false);
+            
+            // Ajout direct dans le tableau sans recharger la page
+            nuevoCliente.id = respuesta.id;
+            nuevoCliente.estado = "Activo";
+            agregarFilaTabla(nuevoCliente);
+            
+            // Réinitialisation du formulaire
+            $("#inputNombre").val("");
+        })
+        .fail(function(err) {[cite: 7]
+            mostrarAlerta("Erreur lors de la création (Vérifiez le Token d'autorisation).", true);
+        });
+    });
+
+    $("#cuerpoTabla").on("click", ".btn-eliminar", function() {[cite: 6]
+        let boton = $(this);
+        let idCliente = boton.data("id");
+
+        $.ajax({[cite: 7]
+            url: API_URL + "/" + idCliente,[cite: 7]
+            method: "DELETE"[cite: 7]
+        })
+        .done(function() {[cite: 7]
+            // Supprime visuellement la ligne avec un effet fondu
+            boton.closest("tr").fadeOut(300, function() {
+                $(this).remove();[cite: 6]
+            });
+            mostrarAlerta("Client ID " + idCliente + " supprimé.", false);
+        })
+        .fail(function() {[cite: 7]
+            mostrarAlerta("Impossible de supprimer ce client.", true);
+        });
+    });
+
     $("#cuerpoTabla").on("click", ".btn-eliminar", function () {
         let idCliente = $(this).data("id");
         console.log("Click para eliminar el cliente" + idCliente);
