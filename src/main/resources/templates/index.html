@@ -15,10 +15,10 @@
     <section>
         <h2>Nuevo cliente</h2>
         <form id="formCliente" onsubmit="return validarForm()">
-            <label on="inputNombre">Nombre del cliente</label>
+            <label for="inputNombre">Nombre del cliente</label>
             <input id="inputNombre" type="text">
 
-            <label on="inputPlan">Tipo de plan</label>
+            <label for="inputPlan">Tipo de plan</label>
             <select id="inputPlan">
                 <option value="Prepago">Prepago</option>
                 <option value="Postpago">Postpago</option>
@@ -31,10 +31,12 @@
 
     <section>
         <h2>Buscar por ID</h2>
-        <label on="inputBuscar">ID del cliente</label>
+        <label for="inputBuscar">ID del cliente</label>
         <input type="text" id="inputBuscar">
         <button type="button" id="btnBuscar">Buscar</button>
     </section>
+
+    <div id="alertaTabla"></div>
 
     <h2>Tabla de clientes</h2>
     <table id="tablaClientes">
